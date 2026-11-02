@@ -64,6 +64,8 @@ audio:
   speech_rate_wpm: 180
   volume: 1.0
   fallback_to_terminal: true
+  voice_model: "models/voices/en_US-amy-medium.onnx"
+  voice_config: "models/voices/en_US-amy-medium.onnx.json"
 monitoring:
   fps_window_size: 20
   metrics_report_interval_seconds: 5.0

@@ -7,5 +7,6 @@ torch>=2.0.0
 torchvision>=0.15.0
 onnx>=1.14.0
 onnxruntime>=1.16.0
+piper-tts>=1.2.0
 pyttsx3>=2.90
 pytest>=7.4.0

@@ -92,12 +92,14 @@ alert:
     multi_object_announcements: false
     max_multi_objects: 3
 
-# Windows Text-to-Speech Subsystem
+# Text-to-Speech Subsystem (Piper TTS with en_US-amy-medium voice; platform fallbacks)
 audio:
   enabled: true
   speech_rate_wpm: 180
   volume: 1.0
   fallback_to_terminal: true
+  voice_model: "models/voices/en_US-amy-medium.onnx"
+  voice_config: "models/voices/en_US-amy-medium.onnx.json"
 
 # Monitoring and Terminal Telemetry
 monitoring:

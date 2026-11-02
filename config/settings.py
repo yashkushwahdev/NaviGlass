@@ -139,6 +139,8 @@ class AudioConfig:
     speech_rate_wpm: int = 180
     volume: float = 1.0
     fallback_to_terminal: bool = True
+    voice_model: str = "models/voices/en_US-amy-medium.onnx"
+    voice_config: str = "models/voices/en_US-amy-medium.onnx.json"
 
     def validate(self) -> None:
         if not (50 <= self.speech_rate_wpm <= 400):
