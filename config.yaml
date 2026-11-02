@@ -1,0 +1,105 @@
+# ==============================================================================
+# NaviGlass Desktop Configuration (Windows 10/11)
+# ==============================================================================
+
+# Camera Subsystem (OpenCV DirectShow / MediaFoundation)
+camera:
+  index: 0
+  width: 640
+  height: 480
+  fps: 30
+  preview: true
+  source: ""
+
+# Pretrained Object Detection Subsystem (Ultralytics YOLO on CPU)
+model:
+  model_name: "yolo26n.pt"
+  fallback_model_name: "yolov8n.pt"
+  weights_dir: "models"
+  inference_size: 320
+  confidence_threshold: 0.45
+  iou_threshold: 0.45
+  device: "cpu"
+  frame_skip: 1
+
+# Camera-Based Metric Depth Estimation Subsystem (Depth Anything V2 Metric Depth)
+depth:
+  enabled: true
+  model_name: "depth_anything_v2_metric_hypersim_vits.pth"
+  weights_dir: "models"
+  encoder: "vits"               # Small model (24.8M params)
+  dataset: "hypersim"           # Indoor metric depth model
+  max_depth: 20.0               # Metric upper bound in metres
+  input_size: 322               # Divisible by 14, real-time CPU friendly
+  device: "cpu"
+  frame_interval: 3             # Run depth inference every N frames (conserves CPU)
+  max_age_seconds: 0.8          # Reject stale depth maps
+  margin_ratio: 0.15            # 15% inner bounding-box inset to avoid background bleed
+  min_valid_depth: 0.2          # Minimum valid metric depth in metres
+  max_valid_depth: 20.0         # Maximum valid metric depth in metres
+  min_valid_pixels: 10          # Minimum valid pixels required for robust median
+
+  # Warning thresholds in metres
+  urgent_distance_threshold: 1.0   # Under 1m: Urgent warning
+  caution_distance_threshold: 2.0  # 1m - 2m: Caution, >2m: Normal
+
+  # Nearest object selection and tracking hysteresis
+  hysteresis_distance_m: 0.25      # Margin before switching nearest object candidate
+  significant_distance_delta_m: 0.5  # Significant change in distance triggers new alert
+  temporal_smoothing_alpha: 0.35   # Exponential smoothing factor across consecutive frames
+
+# Relative Object-Position Voice Guidance & Spoken Alert Logic
+alert:
+  enable_ocr: false  # Explicitly disabled; monocular object-position guidance mode
+  eligible_classes:
+    - "person"
+    - "chair"
+    - "bottle"
+    - "cup"
+    - "couch"
+    - "laptop"
+    - "cell phone"
+    - "book"
+    - "dog"
+    - "cat"
+    - "car"
+    - "bicycle"
+    - "door"
+  # Configurable interval between repeated announcements of visible objects (seconds)
+  announcement_interval_seconds: 3.0
+  cooldown_seconds: 3.0
+  # Spoken phrasing format: "{class_name} {position}."
+  announcement_format: "{class_name} {position}."
+  include_position: true
+  frame_width: 640
+
+  # Horizontal Position Thresholds & Hysteresis
+  position:
+    enabled: true
+    # Objects with center_x / width < 0.35 are announced "on your left"
+    left_threshold: 0.35
+    # Objects with center_x / width >= 0.65 are announced "on your right"
+    right_threshold: 0.65
+    # Hysteresis buffer to prevent speech oscillation near boundaries
+    hysteresis: 0.04
+    phrase_left: "on your left"
+    phrase_center: "in front of you"
+    phrase_right: "on your right"
+    # Announce immediately when an object moves significantly (e.g. left -> center)
+    announce_position_change: true
+    position_change_cooldown_seconds: 1.5
+    # Support combined multi-object announcements
+    multi_object_announcements: false
+    max_multi_objects: 3
+
+# Windows Text-to-Speech Subsystem
+audio:
+  enabled: true
+  speech_rate_wpm: 180
+  volume: 1.0
+  fallback_to_terminal: true
+
+# Monitoring and Terminal Telemetry
+monitoring:
+  fps_window_size: 20
+  metrics_report_interval_seconds: 5.0

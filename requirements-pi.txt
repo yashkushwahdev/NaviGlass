@@ -1,0 +1,40 @@
+# ==============================================================================
+# NaviGlass — Raspberry Pi 4 Model B (Debian 12 Bookworm, ARM64) Dependencies
+# ==============================================================================
+#
+# SYSTEM PREREQUISITES (Install via apt before creating Python virtual environment):
+#   sudo apt update && sudo apt install -y \
+#       python3-venv \
+#       python3-pip \
+#       python3-dev \
+#       python3-opencv \
+#       python3-numpy \
+#       python3-yaml \
+#       python3-picamera2 \
+#       python3-pil \
+#       espeak-ng \
+#       alsa-utils
+#
+# VIRTUAL ENVIRONMENT CREATION (Preserves system-managed packages, PEP 668 compliant):
+#   python3 -m venv --system-site-packages .venv
+#   source .venv/bin/activate
+#
+# INSTALLATION COMMAND:
+#   pip install --no-deps -r requirements-pi.txt
+#   (or simply: pip install -r requirements-pi.txt)
+#
+# ------------------------------------------------------------------------------
+# 1. CORE ONNX INFERENCE ENGINE (No PyTorch, No Torchvision, No CUDA, No Triton)
+# ------------------------------------------------------------------------------
+onnxruntime>=1.16.0,<2.0.0 # ARM64 NEON-accelerated CPU runtime for Python 3.11
+
+# ------------------------------------------------------------------------------
+# 2. APPLICATION UTILITIES & TELEMETRY
+# ------------------------------------------------------------------------------
+psutil>=5.9.0             # CPU and RAM telemetry monitoring
+pyttsx3>=2.90             # Text-to-speech engine wrapper (uses espeak-ng)
+
+# ------------------------------------------------------------------------------
+# 3. AUTOMATED TEST RUNNER
+# ------------------------------------------------------------------------------
+pytest>=7.4.0             # Automated unit & integration test suite

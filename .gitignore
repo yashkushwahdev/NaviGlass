@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+
+# Pytest / Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs & temporary files
+*.log
+scratch/
+_setup/
+
+# Model weights
+# Keep lightweight YOLO weights (yolov8n.onnx, yolov8n.pt, yolo26n.pt)
+# Exclude 95MB metric depth model (download via scripts/download_depth_model.py)
+models/*.pth
+*.pth
+models/*.engine
+
+# IDEs
+.vscode/
+.idea/
+*.swp
